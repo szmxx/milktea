@@ -40,16 +40,21 @@ export default {
     this.drawMilkTeaPanel();
     this.drawMilkTeaPie(this.list.length);
     this.drawMilkTeaPointer(getRandomAngle());
-    this.Emittier.$on("update-list", list => {
+    this.Emittier.$on("update-list", this.reset);
+    // this.drawTestGrapgic();
+  },
+  destroyed() {
+    this.Emittier.$off("update-list", this.reset);
+  },
+  methods: {
+    // 重置转盘
+    reset(list) {
       this.list = list;
       this.bgCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
       this.drawMilkTeaPanel();
       this.drawMilkTeaPie(this.list.length);
       this.drawMilkTeaPointer(getRandomAngle());
-    });
-    // this.drawTestGrapgic();
-  },
-  methods: {
+    },
     drawTestGrapgic() {
       // 遮盖和裁剪图形
       // this.bgCtx.globalCompositeOperation = "source-in";
@@ -83,7 +88,6 @@ export default {
       this.bgCtx.arc(100, 100, 50, 0, Math.PI * 2, false);
       // 只有在裁剪区域的才可见
       this.bgCtx.clip();
-
       this.bgCtx.beginPath();
       this.setFillStyle("#ff0000");
       this.bgCtx.arc(100, 100, 50, 0, Math.PI * 2, false);
