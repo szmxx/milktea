@@ -11,29 +11,31 @@
           :disabled="list.length <= 2"
         />
       </div>
-      <div class="project-container" v-if="projects.length > 0">
-        <div>
-          <span
-            v-for="(item, i) in projects"
-            :key="i"
-            @click="openProject(item)"
-            :style="{ background: item.color }"
-          >
-            {{ item.name }}
-          </span>
+      <div class="content">
+        <div class="project-container" v-if="projects.length > 0">
+          <div>
+            <span
+              v-for="(item, i) in projects"
+              :key="i"
+              @click="openProject(item)"
+              :style="{ background: item.color }"
+            >
+              {{ item.name }}
+            </span>
+          </div>
         </div>
-      </div>
-      <div class="content" v-if="list.length">
-        <ul v-for="(item, i) in list" :key="i">
-          <li @mouseover="mouseEnter" @mouseleave="mouseLeave">
-            {{ item }}<span @click="removeItem(item)">+</span>
-          </li>
-        </ul>
+        <div class="content-container" v-if="list.length">
+          <ul v-for="(item, i) in list" :key="i">
+            <li @mouseover="mouseEnter" @mouseleave="mouseLeave">
+              {{ item }}<span @click="removeItem(item)">+</span>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
 
     <div v-if="isShowModal" class="naicha__modal">
-      <Modal @submit="submit" @close="close"></Modal>
+      <Modal @submit="submitlocal" @close="close"></Modal>
     </div>
   </div>
 </template>
@@ -49,7 +51,22 @@ export default {
     return {
       inputVal: "",
       list: [],
-      projects: [],
+      projects: [
+        {
+          name: "演讲",
+          color: "#FFADAD",
+          list: [
+            "黄震",
+            "刘周玮",
+            "刘俊",
+            "李恒",
+            "王振洲",
+            "何慧婷",
+            "倪志航",
+            "魏聪"
+          ]
+        }
+      ],
       isShowModal: false
     };
   },
@@ -60,13 +77,14 @@ export default {
     }
   },
   beforeMount() {
-    this.initData(
-      function(list) {
-        this.projects = list;
-      }.bind(this)
-    );
+    // this.initData(
+    //   function(list) {
+    //     this.projects = list;
+    //   }.bind(this)
+    // );
   },
   methods: {
+    // 接口暂时不用
     async initData(callback) {
       let res = await getNaichaProject();
       let result = [];
@@ -75,6 +93,7 @@ export default {
       }
       callback(result);
     },
+    // 接口暂时不用
     async submit(e) {
       let project = {
         name: e.name,
@@ -92,6 +111,14 @@ export default {
         console.log(res);
       }
     },
+    submitlocal(e) {
+      let project = {
+        name: e.name,
+        list: this.list
+      };
+      this.projects.push(project);
+    },
+
     close() {
       this.isShowModal = false;
     },
@@ -141,11 +168,12 @@ export default {
 }
 .container {
   float: right;
-  width: 30%;
-  height: 35%;
-  padding: 2rem 0.5rem 2rem 0.5rem;
-  background: rgba(0, 0, 0, 0.4);
+  width: 25%;
+  height: 45%;
+  padding: 1rem 0.5rem 0.5rem 0.5rem;
+  background-image: linear-gradient(-60deg, #e0c3fc98 0%, #8ec5fc8f 100%);
   pointer-events: all;
+  border-radius: 1rem;
 }
 .naicha__modal {
   position: absolute;
@@ -157,64 +185,69 @@ export default {
 }
 .header {
   width: 100%;
-  height: 2.5rem;
+  height: 3rem;
+  line-height: 3rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 0 1rem;
 }
 .header input {
-  margin: 0 0.4rem;
   padding: 0.3rem 0.5rem;
-  line-height: 1.2rem;
   outline-width: 0;
-  min-width: 3.5rem;
-  max-height: 2rem;
-  vertical-align: middle;
   border: 0;
+  line-height: 1rem;
+  margin-right: 1rem;
+}
+.header input[type="text"] {
+  width: 60%;
+}
+.header input[type="button"] {
+  /* margin: 0 1rem; */
+  border-radius: 0.3rem;
+  background: rgb(249, 247, 232);
 }
 .header input[type="button"]:focus {
-  background: #f1e318;
+  background: #8ec5fc;
 }
-.content,
-.project-container {
-  margin: 0 0.4rem;
-  padding: 0rem 2rem;
-  max-height: 60%;
-  margin-top: 0.2rem;
-  overflow: auto;
+.content {
+  height: calc(100% - 3rem);
+  overflow-y: scroll;
+  overflow-x: scroll;
+  padding: 0 0.5rem 0 1rem;
 }
 .project-container div {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   flex-wrap: wrap;
-  padding: 0rem 1rem;
   color: #fff;
+  margin: 0 0 0.5rem 0;
 }
 .project-container div span {
   display: inline-block;
   padding: 0.3rem;
-  margin: 0.3rem;
-  border: 1px solid rgba(255, 255, 255, 0.7);
   border-radius: 5px;
-  min-width: 2rem;
+  min-width: 3rem;
   cursor: pointer;
 }
-.content ul {
+.content-container ul {
   margin: 0;
   padding: 0;
   text-align: left;
   list-style-type: none;
 }
-.content ul li {
-  margin: 0 1.3rem;
+.content-container ul li {
   padding: 0.2rem 0.5rem;
   line-height: 2rem;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  background: rgba(255, 255, 255, 0.4);
+  border-top: 1px solid #e0c3fc98;
+  background: rgba(0, 0, 0, 0.1);
+  color: #fff;
 }
-.content ul li span {
+.content-container ul li span {
   display: none;
   transform: rotate(45deg);
   float: right;
   font-size: 1.5rem;
-  color: #fff;
 }
 </style>

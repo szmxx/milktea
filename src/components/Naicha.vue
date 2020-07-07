@@ -11,17 +11,35 @@
 
 <script>
 import {
-  getRandomColor,
   getRandomNum,
   getRandomAngle,
   getAnimationByType
 } from "../utils/common";
+const colorlist = [
+  "#FFADAD",
+  "#FFD6A5",
+  "#FDFFB6",
+  "#CAFFBF",
+  "#9BF6FF",
+  "#BDB2FF",
+  "#FFC6FF",
+  "#FFFFFC"
+];
 export default {
   data() {
     return {
       bgCtx: null, // 背景绘制上下文
       ptCtx: null, // 指针绘制上下文
-      list: [],
+      list: [
+        "黄震",
+        "刘周玮",
+        "刘俊",
+        "李恒",
+        "王振洲",
+        "何慧婷",
+        "倪志航",
+        "魏聪"
+      ],
       timeout: null
     };
   },
@@ -157,12 +175,17 @@ export default {
     },
     setStrokeStyle(color = "#000") {
       this.bgCtx.strokeStyle = color;
+      this.bgCtx.strokeWidth = 1;
     },
     // 绘制整体奶茶盘
     drawMilkTeaPanel() {
       this.bgCtx.beginPath();
       let radius = 200;
       const { x, y } = this.getCanvasCenter();
+      let gradient = this.bgCtx.createRadialGradient(x, y, 200, x, y, 201);
+      gradient.addColorStop(0, "#e0c3fc");
+      gradient.addColorStop(1, "#8ec5fc");
+      this.setStrokeStyle(gradient);
       this.bgCtx.arc(x, y, radius, 0, Math.PI * 2, false);
       this.bgCtx.stroke();
       this.bgCtx.closePath();
@@ -174,7 +197,7 @@ export default {
       let radius = 200;
       for (let i = 0; i < pieNum; i++) {
         this.bgCtx.beginPath();
-        let color = getRandomColor();
+        let color = colorlist[i];
         this.setFillStyle(color);
         // true 逆时针，默认false
         this.bgCtx.arc(x, y, radius, angle * i, angle * (i + 1), false);
@@ -211,6 +234,7 @@ export default {
         );
         // 逆时针旋转30度，使得文本不会倾斜
         this.bgCtx.rotate(-Math.PI / 6);
+        this.setFillStyle("#000");
         // 绘制文本
         this.bgCtx.fillText(
           this.list[i],
@@ -226,8 +250,11 @@ export default {
     // 绘制奶茶指针
     drawMilkTeaPointer(angle = 0) {
       const { x, y } = this.getCanvasCenter(this.ptCtx);
-      let radius = 200;
-      this.setFillStyle("rgba(255,255,0,0.8)", this.ptCtx);
+      let radius = 150;
+      let gradient = this.ptCtx.createLinearGradient(0, 0, radius * 0.9, 0);
+      gradient.addColorStop(0, "#e0c3fc");
+      gradient.addColorStop(1, "#8ec5fc");
+      this.setFillStyle(gradient, this.ptCtx);
       this.ptCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
       this.ptCtx.save();
       this.ptCtx.translate(x, y);
@@ -296,6 +323,12 @@ export default {
 .mt-operate-container button {
   margin: 10px;
   padding: 5px 20px;
+  outline-width: 0;
+  border: 0;
+  line-height: 1rem;
+  margin-right: 1rem;
+  border-radius: 0.3rem;
+  background: rgb(249, 247, 232);
 }
 .bg-canvas,
 .pt-canvas {
