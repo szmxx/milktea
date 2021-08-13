@@ -1,5 +1,5 @@
 {
-  "name": "naicha-panel",
+  "name": "naicha",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit"
   },
+  "homepage": "https://cheersYou.github.io/naicha",
   "dependencies": {
     "axios": "^0.19.2",
     "core-js": "^3.6.4",

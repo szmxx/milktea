@@ -24,19 +24,19 @@ export default {
   props: {
     type: {
       type: String,
-      default: "奶茶方案"
-    }
+      default: "奶茶方案",
+    },
   },
   data() {
     return {
-      name: ""
+      name: "",
     };
   },
   methods: {
     submitInfo() {
       if (this.name) {
         let params = {
-          name: this.name
+          name: this.name,
         };
         this.$emit("submit", params);
         this.$emit("close");
@@ -50,8 +50,8 @@ export default {
     },
     closeModal() {
       this.$emit("close");
-    }
-  }
+    },
+  },
 };
 </script>
 
