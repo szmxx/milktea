@@ -13,7 +13,7 @@
 import {
   getRandomNum,
   getRandomAngle,
-  getAnimationByType
+  getAnimationByType,
 } from "../utils/common";
 const colorlist = [
   "#FFADAD",
@@ -23,7 +23,34 @@ const colorlist = [
   "#9BF6FF",
   "#BDB2FF",
   "#FFC6FF",
-  "#FFFFFC"
+  "#FFFFFC",
+  "#FDFFB6",
+  "#CAFFBF",
+  "#9BF6FF",
+  "#BDB2FF",
+  "#FFC6FF",
+  "#FFFFFC",
+  "#CAFFBF",
+  "#9BF6FF",
+  "#BDB2FF",
+  "#FFC6FF",
+  "#FFFFFC",
+];
+const userlist = [
+  "刘周玮",
+  "贾宝林",
+  "代德扬",
+  "何慧婷",
+  "倪志航",
+  "魏聪",
+  "陈广禄",
+  "王振洲",
+  "汪洋",
+  "李恒",
+  "肖健",
+  "田银伟",
+  "黄震",
+  "陈倩",
 ];
 export default {
   data() {
@@ -31,20 +58,29 @@ export default {
       bgCtx: null, // 背景绘制上下文
       ptCtx: null, // 指针绘制上下文
       list: [
-        "黄震",
+        "刘朝",
+        "马颖涛",
+        "陈超琪",
+        "胡明旭",
         "刘周玮",
-        "刘俊",
-        "李恒",
-        "王振洲",
+        "杨威",
+        "肖健",
+        "贾宝林",
+        "代德扬",
         "何慧婷",
-        "倪志航",
-        "魏聪"
+        "魏聪",
+        "田银伟",
+        "王振洲",
+        "李恒",
+        "黄震",
+        "陈倩",
       ],
-      timeout: null
+      timeout: null,
     };
   },
   inject: ["Emittier"],
   mounted() {
+    console.log(userlist);
     let bgCanvasEle = this.$refs["bg-canvas"];
     let ptCanvasEle = this.$refs["pt-canvas"];
     this.setCanvasSetting(bgCanvasEle);
@@ -125,10 +161,10 @@ export default {
       let options = {
           time: 0,
           begin: 0,
-          end: getRandomNum(3000, 4000),
-          duration: (4000, 6000),
+          end: getRandomNum(5000, 20000),
+          duration: (4000, 20000),
           type: "ease-in-out",
-          callback: callback
+          callback: callback,
         },
         that = this;
       function callback(value) {
@@ -150,9 +186,9 @@ export default {
           time: 0,
           begin: 0,
           type: "ease-in-out",
-          end: getRandomNum(3000, 4000),
-          duration: getRandomNum(4000, 6000),
-          callback: callback
+          end: getRandomNum(5000, 20000),
+          duration: getRandomNum(4000, 20000),
+          callback: callback,
         },
         that = this;
       function callback(value) {
@@ -282,7 +318,7 @@ export default {
       return { x: x, y: y };
     },
     play(options) {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         let { time, begin, end, duration, type, callback } = options;
         let durNums = Math.ceil(duration / 16.7);
         if (!window.requestAnimationFrame) {
@@ -302,8 +338,8 @@ export default {
         }
         step();
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

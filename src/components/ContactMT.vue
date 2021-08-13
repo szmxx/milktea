@@ -19,15 +19,15 @@
               :key="i"
               @click="openProject(item)"
               :style="{ background: item.color }"
+              >{{ item.name }}</span
             >
-              {{ item.name }}
-            </span>
           </div>
         </div>
         <div class="content-container" v-if="list.length">
           <ul v-for="(item, i) in list" :key="i">
             <li @mouseover="mouseEnter" @mouseleave="mouseLeave">
-              {{ item }}<span @click="removeItem(item)">+</span>
+              {{ item }}
+              <span @click="removeItem(item)">+</span>
             </li>
           </ul>
         </div>
@@ -45,7 +45,7 @@ import { saveNaichaProject, getNaichaProject } from "@/api/naicha";
 import Modal from "./Modal";
 export default {
   components: {
-    Modal
+    Modal,
   },
   data() {
     return {
@@ -56,25 +56,33 @@ export default {
           name: "演讲",
           color: "#FFADAD",
           list: [
-            "黄震",
+            "刘朝",
+            "马颖涛",
+            "陈超琪",
+            "胡明旭",
             "刘周玮",
-            "刘俊",
-            "李恒",
-            "王振洲",
+            "杨威",
+            "肖健",
+            "贾宝林",
+            "代德扬",
             "何慧婷",
-            "倪志航",
-            "魏聪"
-          ]
-        }
+            "魏聪",
+            "田银伟",
+            "王振洲",
+            "李恒",
+            "黄震",
+            "陈倩",
+          ],
+        },
       ],
-      isShowModal: false
+      isShowModal: false,
     };
   },
   inject: ["Emittier"],
   watch: {
     list(newval) {
       this.Emittier.$emit("update-list", newval);
-    }
+    },
   },
   beforeMount() {
     // this.initData(
@@ -97,7 +105,7 @@ export default {
     async submit(e) {
       let project = {
         name: e.name,
-        list: this.list
+        list: this.list,
       };
       let res = await saveNaichaProject(project);
       if (res.status === "success") {
@@ -114,7 +122,7 @@ export default {
     submitlocal(e) {
       let project = {
         name: e.name,
-        list: this.list
+        list: this.list,
       };
       this.projects.push(project);
     },
@@ -156,8 +164,8 @@ export default {
       if (isDiffArr(this.list, item.list)) {
         this.list = JSON.parse(JSON.stringify(item.list));
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
@@ -165,6 +173,7 @@ export default {
   position: relative;
   height: 100%;
   pointer-events: none;
+  user-select: none;
 }
 .container {
   float: right;

@@ -1,3 +1,10 @@
+/*
+ * @Author: weicong
+ * @Date: 2020-02-16 21:23:40
+ * @LastEditTime: 2021-01-25 09:18:07
+ * @LastEditors: weicong
+ * @Description:
+ */
 export const getRandomColor = () => {
   let r = Math.floor(Math.random() * 256),
     g = Math.floor(Math.random() * 256),
@@ -28,6 +35,14 @@ export const isDiffArr = (arr1, arr2) => {
   }
   return result;
 };
+/**
+ * @description:
+ * @param {*} time 当前时间
+ * @param {*} time 开始属性值
+ * @param {*} time 结束属性值
+ * @param {*} time 过渡时间
+ * @return {*}
+ */
 const linear = (time, begin, end, duration) => {
   return begin + (end - begin) * (time / duration);
 };
